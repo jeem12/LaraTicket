@@ -28,6 +28,38 @@
                     </flux:navlist.item>
                 </flux:navlist.group>
                 
+                @if(auth()->user()->role === 'admin')
+                    <flux:navlist.group heading="Tickets" class="grid">
+                    <flux:navlist.item 
+                        icon="ticket" 
+                        href="{{ route('user.tickets.index') }}" 
+                        :current="request()->routeIs('user.tickets.*')"
+                        wire:navigate
+                    >
+                        Opened Tickets
+                    </flux:navlist.item>
+
+                    <flux:navlist.item 
+                        icon="clock" 
+                        href="{{ route('user.tickets.create') }}" 
+                        :current="request()->routeIs('user.tickets.create')"
+                        wire:navigate
+                    >
+                        Pending Tickets
+                    </flux:navlist.item>
+
+                    <flux:navlist.item 
+                        icon="check-circle" 
+                        href="{{ route('user.tickets.create') }}" 
+                        :current="request()->routeIs('user.tickets.create')"
+                        wire:navigate
+                    >
+                        Closed Tickets
+                    </flux:navlist.item>
+
+  
+                </flux:navlist.group>
+                @else
                 <flux:navlist.group heading="Tickets" class="grid">
                     <flux:navlist.item 
                         icon="ticket" 
@@ -47,6 +79,9 @@
                         New Ticket
                     </flux:navlist.item>
                 </flux:navlist.group>
+                    
+                @endif
+                
 
                 @if(auth()->user()->role === 'admin')
                     <flux:navlist.group heading="Administration" class="grid">
@@ -57,6 +92,15 @@
                             wire:navigate
                         >
                             User Management
+                        </flux:navlist.item>
+
+                        <flux:navlist.item 
+                            icon="building-office" 
+                            href="{{ route('admin.departments.index') }}" 
+                            :current="request()->routeIs('admin.departments.*')"
+                            wire:navigate
+                        >
+                            Department List
                         </flux:navlist.item>
 
                         <flux:navlist.item 

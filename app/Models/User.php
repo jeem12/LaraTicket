@@ -65,4 +65,14 @@ class User extends Authenticatable // implements MustVerifyEmail
     {
         return $this->hasMany(Ticket::class);
     }
+
+    public function department() 
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return $this->role === $role;
+    }
 }

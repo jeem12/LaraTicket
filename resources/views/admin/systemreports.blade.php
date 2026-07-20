@@ -1,4 +1,4 @@
-<x-layouts.app>
+<x.app.layout>
     <div class="space-y-6">
 
 
@@ -9,4 +9,4 @@
    
         </div>
     </div>
-</x-layouts.app>
+</x.app.layout>

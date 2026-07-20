@@ -20,11 +20,11 @@
     <!-- Navbar -->
     <nav class="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="font-bold text-xl tracking-tight text-blue-600">TicketDesk</div>
+            <div class="font-bold text-xl tracking-tight text-blue-600">{{ config('app.name') }}</div>
             @if (Route::has('login'))
                 <div class="space-x-4">
                     @auth
-                        <a href="{{ url('/dashboard') }}" class="text-sm font-medium hover:text-blue-600 transition">Dashboard</a>
+                        <a href="{{ route('user.dashboard') }}" class="text-sm font-medium hover:text-blue-600 transition">Dashboard</a>
                     @else
                         <a href="{{ route('login') }}" class="text-sm font-medium hover:text-blue-600 transition">Log in</a>
                         @if (Route::has('register'))
