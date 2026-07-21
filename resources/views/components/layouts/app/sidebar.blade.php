@@ -3,17 +3,25 @@
     <head>
         @include('partials.head')
     </head>
-    <body class="min-h-screen bg-white dark:bg-zinc-800">
-        <flux:sidebar sticky stashable class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
-            <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
+    <body class="min-h-screen bg-zinc-950 text-zinc-100 flex">
+        <flux:sidebar sticky stashable class="border-r border-zinc-800/80 bg-zinc-900/90 backdrop-blur-xl">
+            <flux:sidebar.toggle class="lg:hidden text-zinc-400 hover:text-white" icon="x-mark" />
 
             <a href="{{ auth()->user()->role === 'admin' ? route('admin.dashboard') : route('user.dashboard') }}" 
-            class="mr-5 flex items-center space-x-2" wire:navigate>
-                <x-app-logo class="size-8" href="#"></x-app-logo>
+            class="px-2 mb-2 flex items-center space-x-3 group" wire:navigate>
+                <div class="p-2 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 group-hover:bg-cyan-500/20 transition-all">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125V6.375c0-.621-.504-1.125-1.125-1.125H3.375z" />
+                    </svg>
+                </div>
+                <div>
+                    <span class="font-bold text-sm tracking-wide text-white block">{{ config('app.name') }}</span>
+                    <span class="text-[10px] text-zinc-400 font-medium tracking-wider uppercase">Portal v1.0</span>
+                </div>
             </a>
 
-            <flux:navlist variant="outline">
-                <flux:navlist.group heading="Platform" class="grid">
+            <flux:navlist variant="outline" class="space-y-6">
+                <flux:navlist.group heading="Platform" class="grid gap-1">
                     @php
                         $dashboardRoute = auth()->user()->role === 'admin' ? 'admin.dashboard' : 'user.dashboard';
                     @endphp
@@ -29,62 +37,59 @@
                 </flux:navlist.group>
                 
                 @if(auth()->user()->role === 'admin')
-                    <flux:navlist.group heading="Tickets" class="grid">
-                    <flux:navlist.item 
-                        icon="ticket" 
-                        href="{{ route('user.tickets.index') }}" 
-                        :current="request()->routeIs('user.tickets.*')"
-                        wire:navigate
-                    >
-                        Opened Tickets
-                    </flux:navlist.item>
+                    <flux:navlist.group heading="Ticket Management" class="grid gap-1">
+                        <flux:navlist.item 
+                            icon="ticket" 
+                            href="{{ route('admin.open-tickets') }}" 
+                            :current="request()->routeIs('admin.open-tickets')"
+                            wire:navigate
+                        >
+                            Opened Tickets
+                        </flux:navlist.item>
 
-                    <flux:navlist.item 
-                        icon="clock" 
-                        href="{{ route('user.tickets.create') }}" 
-                        :current="request()->routeIs('user.tickets.create')"
-                        wire:navigate
-                    >
-                        Pending Tickets
-                    </flux:navlist.item>
+                        <flux:navlist.item 
+                            icon="clock" 
+                            href="{{ route('admin.pending-tickets') }}" 
+                            :current="request()->routeIs('admin.pending-tickets')"
+                            wire:navigate
+                        >
+                            Pending Tickets
+                        </flux:navlist.item>
 
-                    <flux:navlist.item 
-                        icon="check-circle" 
-                        href="{{ route('user.tickets.create') }}" 
-                        :current="request()->routeIs('user.tickets.create')"
-                        wire:navigate
-                    >
-                        Closed Tickets
-                    </flux:navlist.item>
-
-  
-                </flux:navlist.group>
+                        <flux:navlist.item 
+                            icon="check-circle" 
+                            href="{{ route('admin.closed-tickets') }}" 
+                            :current="request()->routeIs('admin.closed-tickets')"
+                            wire:navigate
+                        >
+                            Closed Tickets
+                        </flux:navlist.item>
+                    </flux:navlist.group>
                 @else
-                <flux:navlist.group heading="Tickets" class="grid">
-                    <flux:navlist.item 
-                        icon="ticket" 
-                        href="{{ route('user.tickets.index') }}" 
-                        :current="request()->routeIs('user.tickets.*')"
-                        wire:navigate
-                    >
-                        My Tickets
-                    </flux:navlist.item>
+                    <flux:navlist.group heading="Support Hub" class="grid gap-1">
+                        <flux:navlist.item 
+                            icon="ticket" 
+                            href="{{ route('user.tickets.index') }}" 
+                            :current="request()->routeIs('user.tickets.*')"
+                            wire:navigate
+                        >
+                            My Tickets
+                        </flux:navlist.item>
 
-                    <flux:navlist.item 
-                        icon="plus-circle" 
-                        href="{{ route('user.tickets.create') }}" 
-                        :current="request()->routeIs('user.tickets.create')"
-                        wire:navigate
-                    >
-                        New Ticket
-                    </flux:navlist.item>
-                </flux:navlist.group>
-                    
+                        <flux:navlist.item 
+                            icon="plus-circle" 
+                            href="{{ route('user.tickets.create') }}" 
+                            :current="request()->routeIs('user.tickets.create')"
+                            wire:navigate
+                        >
+                            New Ticket
+                        </flux:navlist.item>
+                    </flux:navlist.group>
                 @endif
                 
 
                 @if(auth()->user()->role === 'admin')
-                    <flux:navlist.group heading="Administration" class="grid">
+                    <flux:navlist.group heading="Administration" class="grid gap-1">
                         <flux:navlist.item 
                             icon="users" 
                             href="{{ route('admin.users.index') }}" 
@@ -126,15 +131,15 @@
 
             <flux:spacer />
 
-            <flux:navlist variant="outline">
-                <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                    Repository
-                </flux:navlist.item>
-
-                <flux:navlist.item icon="book-open-text" href="https://laravel.com/docs/starter-kits" target="_blank">
-                    Documentation
-                </flux:navlist.item>
-            </flux:navlist>
+            <div class="my-4 px-2">
+                <div class="p-3 rounded-xl bg-zinc-900/50 border border-zinc-800/60 flex items-center gap-3">
+                    <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                    <div class="text-xs">
+                        <span class="text-zinc-300 font-medium block">System Online</span>
+                        <span class="text-zinc-500 text-[10px]">All services operational</span>
+                    </div>
+                </div>
+            </div>
 
             <!-- Desktop User Menu -->
             <flux:dropdown position="bottom" align="start">
@@ -142,23 +147,25 @@
                     :name="auth()->user()->name"
                     :initials="auth()->user()->initials()"
                     icon-trailing="chevrons-up-down"
-                />
+                >
+                    <x-slot name="subtext">
+                        {{ auth()->user()->department->name ?? ucfirst(auth()->user()->role) }}
+                    </x-slot>
+                </flux:profile>
 
                 <flux:menu class="w-[220px]">
                     <flux:menu.radio.group>
                         <div class="p-0 text-sm font-normal">
                             <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                                 <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-lg">
-                                    <span
-                                        class="flex h-full w-full items-center justify-center rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white"
-                                    >
+                                    <span class="flex h-full w-full items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-semibold text-xs">
                                         {{ auth()->user()->initials() }}
                                     </span>
                                 </span>
 
                                 <div class="grid flex-1 text-left text-sm leading-tight">
                                     <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
-                                    <span class="truncate text-xs">{{ auth()->user()->email }}</span>
+                                    <span class="truncate text-xs text-zinc-400">{{ auth()->user()->department->name ?? ucfirst(auth()->user()->role) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -183,32 +190,35 @@
         </flux:sidebar>
 
         <!-- Mobile User Menu -->
-        <flux:header class="lg:hidden">
+        <flux:header class="lg:hidden bg-zinc-900/80 backdrop-blur-md border-b border-zinc-800">
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
             <flux:spacer />
 
             <flux:dropdown position="top" align="end">
                 <flux:profile
+                    :name="auth()->user()->name"
                     :initials="auth()->user()->initials()"
                     icon-trailing="chevron-down"
-                />
+                >
+                    <x-slot name="subtext">
+                        {{ auth()->user()->department->name ?? ucfirst(auth()->user()->role) }}
+                    </x-slot>
+                </flux:profile>
 
                 <flux:menu>
                     <flux:menu.radio.group>
                         <div class="p-0 text-sm font-normal">
                             <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                                 <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-lg">
-                                    <span
-                                        class="flex h-full w-full items-center justify-center rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white"
-                                    >
+                                    <span class="flex h-full w-full items-center justify-center rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 font-semibold text-xs">
                                         {{ auth()->user()->initials() }}
                                     </span>
                                 </span>
 
                                 <div class="grid flex-1 text-left text-sm leading-tight">
                                     <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
-                                    <span class="truncate text-xs">{{ auth()->user()->email }}</span>
+                                    <span class="truncate text-xs text-zinc-400">{{ auth()->user()->department->name ?? ucfirst(auth()->user()->role) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -232,7 +242,9 @@
             </flux:dropdown>
         </flux:header>
 
-        {{ $slot }}
+        <div class="flex-1 flex flex-col min-w-0 bg-zinc-950">
+            {{ $slot }}
+        </div>
 
         @fluxScripts
     </body>

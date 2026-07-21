@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends Authenticatable // implements MustVerifyEmail
 {
@@ -20,10 +21,14 @@ class User extends Authenticatable // implements MustVerifyEmail
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'prefix',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'suffix',
         'email',
         'password',
-        'role', 
+        'role',
         'department',
     ];
 
@@ -74,5 +79,18 @@ class User extends Authenticatable // implements MustVerifyEmail
     public function hasRole(string $role): bool
     {
         return $this->role === $role;
+    }
+
+    protected function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => trim(implode(' ', array_filter([
+                $this->prefix,
+                $this->first_name,
+                $this->middle_name,
+                $this->last_name,
+                $this->suffix,
+            ])))
+        );
     }
 }

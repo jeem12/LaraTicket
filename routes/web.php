@@ -16,9 +16,16 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', [App\Http\Controllers\AdminController::class, 'indexDashboard'])->name('admin.dashboard');
-    Route::get('/users', [App\Http\Controllers\AdminController::class, 'userManagement'])->name('admin.users.index');
-    Route::get('/departments', [App\Http\Controllers\AdminController::class, 'departmentManagement'])->name('admin.departments.index');
+    Volt::route('/dashboard', 'dashboard')->name('admin.dashboard');
+    // Route::get('/users', [App\Http\Controllers\AdminController::class, 'userManagement'])->name('admin.users.index');
+    Volt::route('/users', 'user-management')->name('admin.users.index');
+    Volt::route('/departments', 'department-management')->name('admin.departments.index');
+
+    Volt::route('/open-tickets', 'open-tickets')->name('admin.open-tickets');
+    Volt::route('/pending-tickets', 'pending-tickets')->name('admin.pending-tickets');
+    Volt::route('/closed-tickets', 'closed-tickets')->name('admin.closed-tickets');
+
+
     Route::get('/system-reports', [App\Http\Controllers\AdminController::class, 'indexReports'])->name('admin.reports');
     Route::get('/settings', [App\Http\Controllers\AdminController::class, 'showSettings'])->name('admin.settings');
 
