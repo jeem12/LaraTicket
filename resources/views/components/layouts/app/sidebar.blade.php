@@ -68,6 +68,7 @@
                 @else
                     <flux:navlist.group heading="Support Hub" class="grid gap-1">
                         <flux:navlist.item 
+<<<<<<< HEAD
                             icon="ticket" 
                             href="{{ route('user.tickets.index') }}" 
                             :current="request()->routeIs('user.tickets.*')"
@@ -84,6 +85,44 @@
                         >
                             New Ticket
                         </flux:navlist.item>
+=======
+                            icon="plus-circle" 
+                            href="{{ route('user.new-ticket') }}" 
+                            :current="request()->routeIs('user.tickets.create')"
+                            wire:navigate
+                        >
+                            Submit New Ticket
+                        </flux:navlist.item>
+
+                        <flux:navlist.item 
+                            icon="ticket" 
+                            href="{{ route('user.opened-ticket') }}" 
+                            :current="request()->routeIs('user.tickets.*')"
+                            wire:navigate
+                        >
+                            Opened Tickets
+                        </flux:navlist.item>
+
+                        <flux:navlist.item 
+                            icon="clock" 
+                            href="{{ route('user.pending-tickets') }}" 
+                            :current="request()->routeIs('user.tickets.*')"
+                            wire:navigate
+                        >
+                            Pending Tickets
+                        </flux:navlist.item>
+
+                        <flux:navlist.item 
+                            icon="check-circle" 
+                            href="{{ route('user.closed-tickets') }}" 
+                            :current="request()->routeIs('user.tickets.*')"
+                            wire:navigate
+                        >
+                            Closed Tickets
+                        </flux:navlist.item>
+
+
+>>>>>>> a7375cc (July 21, 2026 7:20)
                     </flux:navlist.group>
                 @endif
                 

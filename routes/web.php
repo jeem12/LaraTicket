@@ -58,7 +58,15 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 
     // Dashboard & Tickets (Convert these to Volt routes)
+<<<<<<< HEAD
     Volt::route('/Dashboard', 'user.dashboard')->name('user.dashboard');
+=======
+    Volt::route('/Dashboard', 'user-dashboard')->name('user.dashboard');
+    Volt::route('/new-ticket', 'new-tickets')->name('user.new-ticket');
+    Volt::route('/opened-ticket', 'opened-tickets')->name('user.opened-ticket');
+    Volt::route('/pending-ticket', 'pending-tickets')->name('user.pending-tickets');
+    Volt::route('/closed-ticket', 'closed-tickets')->name('user.closed-tickets');
+>>>>>>> a7375cc (July 21, 2026 7:20)
 
     Route::prefix('userDashboard/tickets')->group(function () {
         Volt::route('/', 'user.tickets.index')->name('user.tickets.index');
