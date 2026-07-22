@@ -1,15 +1,6 @@
-# Step 1: Build Frontend Assets
-FROM node:24-alpine AS frontend-builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
-
-# Step 2: Configure PHP & Production Environment
 FROM php:8.3-fpm-alpine
 
-# Install system dependencies and PHP extensions needed for Laravel
+# Install system dependencies, PHP extensions, Node.js, and npm
 RUN apk add --no-cache \
     nginx \
     supervisor \
@@ -17,7 +8,9 @@ RUN apk add --no-cache \
     libpng-dev \
     libxml2-dev \
     zip \
-    unzip
+    unzip \
+    nodejs \
+    npm
 
 RUN docker-php-ext-install pdo pdo_mysql bcmath
 
@@ -26,14 +19,17 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 COPY . .
-COPY --from=frontend-builder /app/public/build ./public/build
 
-# Install production PHP dependencies
+# 1. Install PHP dependencies first (This fixes the missing Flux CSS issue)
 RUN composer install --no-dev --optimize-autoloader
 
-# Set permissions for Laravel
+# 2. Build frontend assets now that vendor/ directory exists
+RUN npm install && npm run build
+
+# Set permissions for Laravel storage and cache directories
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Expose port and start via a basic command
 EXPOSE 80
+
+# Run optimization and start the server environment
 CMD php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan storage:link && nginx -g "daemon off;"
