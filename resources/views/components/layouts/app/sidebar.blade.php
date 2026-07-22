@@ -68,24 +68,6 @@
                 @else
                     <flux:navlist.group heading="Support Hub" class="grid gap-1">
                         <flux:navlist.item 
-<<<<<<< HEAD
-                            icon="ticket" 
-                            href="{{ route('user.tickets.index') }}" 
-                            :current="request()->routeIs('user.tickets.*')"
-                            wire:navigate
-                        >
-                            My Tickets
-                        </flux:navlist.item>
-
-                        <flux:navlist.item 
-                            icon="plus-circle" 
-                            href="{{ route('user.tickets.create') }}" 
-                            :current="request()->routeIs('user.tickets.create')"
-                            wire:navigate
-                        >
-                            New Ticket
-                        </flux:navlist.item>
-=======
                             icon="plus-circle" 
                             href="{{ route('user.new-ticket') }}" 
                             :current="request()->routeIs('user.tickets.create')"
@@ -122,7 +104,6 @@
                         </flux:navlist.item>
 
 
->>>>>>> a7375cc (July 21, 2026 7:20)
                     </flux:navlist.group>
                 @endif
                 

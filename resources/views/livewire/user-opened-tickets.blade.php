@@ -62,7 +62,7 @@ new class extends Component
     {
         $ticket = Ticket::findOrFail($id);
         $ticket->update([
-            'status' => 'closed',
+            'status' => 'Closed',
             'resolved_at' => now(),
         ]);
 
@@ -76,7 +76,7 @@ new class extends Component
     public function with(): array
     {
         $query = Ticket::with(['user', 'department', 'messages.user'])
-            ->where('status', '!=', 'closed')
+            ->where('status', 'Opened')
             ->latest();
 
         if ($this->search) {
